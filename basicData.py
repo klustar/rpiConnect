@@ -8,27 +8,32 @@ import csv
 
 setDate=datetime.datetime.now()
 setDate=setDate.strftime('%Y%m%d')
+setTime=setDate.strftime('%H')
+i=1
 
-try:
-    while True:
-        nowDate=datetime.datetime.now()
-        title=nowDate.strftime('%Y-%m-%d')
+while True:
+    nowDate=datetime.datetime.now()
+    title=nowDate.strftime('%Y-%m-%d')
+    nowDate=nowDate.strftime('%Y%m%d')
+    nowTime=nowDate.strftime('%H')
 
-        if nowDate.strtime('%Y%m%d')!=setDate.strtime('%Y%m%d'):
-            # 파일열기 및 최초열생성
-            f=open(title+'.csv','w',encoding='utf-8',newline='')
+    if nowDate!=setDate:
+        # 파일열기 및 최초열생성
+        f=open(title+'.csv','w',encoding='utf-8',newline='')
+        wr=csv.writer(f)
+        wr.writerow(['순번','시간','비고'])
+        f.close()
+    else:
+        # 테스트 시간 출력
+        if nowTime!=setTime:
+            f=open(title+'.csv','a',encoding='utf-8',newline='')
             wr=csv.writer(f)
-            wr.writerow(['순번','시간','비고'])
-        else:
-            # 센서 측정부분
-            if sonic(trig,echo)<doorWidth:
-                f=open(title+'.csv','a',encoding='utf-8',newline='')
-                wr=csv.writer(f)
-                nowDate=datetime.datetime.now()
-                timelog=nowDate.strftime('%H:%M:%S')
-                wr.writerow([i,timelog,' '])
-                i=i+1
+            nowDate=datetime.datetime.now()
+            timelog=nowDate.strftime('%H:%M:%S')
+            wr.writerow([i,timelog,' '])
+            i=i+1
+            f.close()
         
-        setDate=datetime.datetime.now()
-except:
-    f.close()
+    setDate=datetime.datetime.now()
+    setDate=setDate.strftime('%Y%m%d')
+    setTime=setDate.strftime('%H')
